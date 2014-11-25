@@ -5,7 +5,7 @@ clc;
 window = 4725;
 start = 39250;
 [x, Fs] = audioread('entertainer.mp3');
-x = x(start:size(x,1)/4,1);
+x = x(start:size(x,1),1);
 T = 1/Fs;                     % Sample time
 L = size(x,1);                % Length of signal
 t = (0:L-1)*T;                % Time vector
