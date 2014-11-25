@@ -1,17 +1,23 @@
 clear all;
 clc;
 
-window = 4450;
-start = 40000;
-[s, Fs] = audioread('entertainer.mp3');
-x = s(40000:40000+window,1);
+% window for a 16th note
+window = 4715;
+start = 39250;
+[x, Fs] = audioread('entertainer.mp3');
+x = x(start:size(x,1),1);
 T = 1/Fs;                     % Sample time
-L = size(x,1);                     % Length of signal
+L = size(x,1);                % Length of signal
 t = (0:L-1)*T;                % Time vector
-% Sum of a 50 Hz sinusoid and a 120 Hz sinusoid
+
+windows = square(t/window*Fs*pi)*0.4;
 
 figure(1);
-plot(Fs*t,x)
+plot(x);
+hold on;
+plot(windows, 'r');
+hold off;
+%plot(Fs*t,x)
 
 xlabel('time (milliseconds)')
 
