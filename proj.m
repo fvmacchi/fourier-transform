@@ -13,13 +13,11 @@ plot(Fs*t(1:50),x(1:50))
 title('Signal Corrupted with Zero-Mean Random Noise')
 xlabel('time (milliseconds)')
 
-NFFT = 2^nextpow2(L); % Next power of 2 from length of y
-X = fft(x,NFFT)/L;
-f = Fs/2*linspace(0,1,NFFT/2+1);
+[X, f] = fouriertransform(Fs, x);
 
 % Plot single-sided amplitude spectrum.
 figure(2);
-plot(f,2*abs(X(1:NFFT/2+1))) 
+plot(f,X) 
 title('Single-Sided Amplitude Spectrum of y(t)')
 xlabel('Frequency (Hz)')
 ylabel('|Y(f)|')
