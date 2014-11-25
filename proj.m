@@ -1,16 +1,18 @@
 clear all;
 clc;
 
-Fs = 1000;                    % Sampling frequency
+window = 4450;
+start = 40000;
+[s, Fs] = audioread('entertainer.mp3');
+x = s(40000:40000+window,1);
 T = 1/Fs;                     % Sample time
-L = 15000;                     % Length of signal
+L = size(x,1);                     % Length of signal
 t = (0:L-1)*T;                % Time vector
 % Sum of a 50 Hz sinusoid and a 120 Hz sinusoid
-x = 0.7*sin(2*pi*50*t) + 2*sin(2*pi*440*t); 
 
 figure(1);
-plot(Fs*t(1:50),x(1:50))
-title('Signal Corrupted with Zero-Mean Random Noise')
+plot(Fs*t,x)
+
 xlabel('time (milliseconds)')
 
 [X, f] = fouriertransform(Fs, x);

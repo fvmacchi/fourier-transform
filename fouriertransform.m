@@ -1,5 +1,5 @@
 function [ X, f ] = fouriertransform( Fs, x )
-
+x = transpose(x);
 L = size(x,2);                % Length of signal
 
 NFFT = 2^nextpow2(L); % Next power of 2 from length of y
