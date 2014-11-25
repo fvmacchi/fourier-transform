@@ -2,10 +2,10 @@ clear all;
 clc;
 
 % window for a 16th note
-window = 4715;
+window = 4725;
 start = 39250;
 [x, Fs] = audioread('entertainer.mp3');
-x = x(start:size(x,1),1);
+x = x(start:size(x,1)/4,1);
 T = 1/Fs;                     % Sample time
 L = size(x,1);                % Length of signal
 t = (0:L-1)*T;                % Time vector
@@ -21,11 +21,21 @@ hold off;
 
 xlabel('time (milliseconds)')
 
-[X, f] = fouriertransform(Fs, x);
-
-% Plot single-sided amplitude spectrum.
-figure(2);
-plot(f,X) 
-title('Single-Sided Amplitude Spectrum of y(t)')
-xlabel('Frequency (Hz)')
-ylabel('|Y(f)|')
+notes = [];
+amplitudes = [];
+for k = 0:15
+   sample = x(window*k+1:window*(k+1),:);
+   l = size(sample,1);
+   [X, f] = fouriertransform(Fs, sample);
+   [sampleNotes, sampleAmplitudes] = findnotes(X, f);
+   columns = size(sampleNotes, 2) - size(notes,2);
+   if(columns > 0)
+       notes = [notes zeros(size(notes,1), columns)];
+       amplitudes = [amplitudes zeros(size(notes,1), columns)];
+   elseif(columns < 0) 
+       sampleNotes = [sampleNotes zeros(1, -columns)];
+       sampleAmplitudes = [sampleAmplitudes zeros(1, -columns)];
+   end
+   notes = [notes; sampleNotes];
+   amplitudes = [amplitudes; sampleAmplitudes];
+end
