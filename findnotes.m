@@ -22,7 +22,7 @@ for i = 1:size(peaks,2)
         largestLoc = locations(i);
     end
 end
-threshold = largest/2;
+threshold = largest/2.5;
 notes = [];
 amplitudes = [];
 for i = 1:size(peaks,2)
