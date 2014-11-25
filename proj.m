@@ -23,7 +23,7 @@ xlabel('time (milliseconds)')
 
 notes = [];
 amplitudes = [];
-for k = 0:15
+for k = 0:size(x,1)/window-2
    sample = x(window*k+1:window*(k+1),:);
    l = size(sample,1);
    [X, f] = fouriertransform(Fs, sample);
@@ -39,3 +39,20 @@ for k = 0:15
    notes = [notes; sampleNotes];
    amplitudes = [amplitudes; sampleAmplitudes];
 end
+
+music = zeros(size(notes,1)*window, 1);
+t = (0:window-1)*T;
+for i = 1:size(notes,1)
+    wave = zeros(window,1);
+    for k = 1:size(notes,2)
+        if(notes(i,k) == 0)
+            break;
+        end
+        wave = wave + transpose(amplitudes(i,k)*sin(2*pi*notes(i,k)*t));
+    end
+    music((i-1)*window+1:i*window) = wave;
+end
+figure(2)
+plot(music)
+
+audiowrite('transcribed.wav',music, Fs);
