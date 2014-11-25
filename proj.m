@@ -24,7 +24,7 @@ xlabel('time (milliseconds)')
 notes = [];
 amplitudes = [];
 for k = 0:size(x,1)/window-2
-   sample = x(window*k+1:window*(k+1),:);
+   sample = x(window*k+1+0.1*window:window*(k+1)-0.1*window,:);
    l = size(sample,1);
    [X, f] = fouriertransform(Fs, sample);
    [sampleNotes, sampleAmplitudes] = findnotes(X, f);
